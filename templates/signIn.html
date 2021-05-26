@@ -4,6 +4,16 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Not Found</h1>
+    <h1>Sign-in</h1>
 </div>
+
+<form method="POST" action="/signIn">
+    <label class="control-label" for="id">ID</label>
+    <input class="form-control" id="id" name="id" required="" type="text" value="">
+    <label class="control-label" for="pw">Password</label>
+    <input class="form-control" id="pw" name="pw" required="" type="text" value="">
+    <br>
+    <div class='button'>
+        <button type="submit">Log-in</button>
+    </div>
 {% endblock %}
