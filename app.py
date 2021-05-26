@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
 moment = Moment(app)
-conn = sqlite3.connect('JHps5.db', check_same_thread=False)
+conn = sqlite3.connect('OEDB.db', check_same_thread=False)
 
 
 @app.errorhandler(404)
