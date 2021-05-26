@@ -24,7 +24,7 @@ def internal_server_error(e):
 
 
 @app.route('/', methods=['GET', 'POST'])
-def problemA():
+def sign_in():
     result_set = []
     if request.method == 'POST':
         price = int(request.form['price'])
@@ -33,8 +33,8 @@ def problemA():
         for row in cur.execute(query):
             result_set.append(row)
         result = result_set[0]
-        return render_template('problemA.html', result=result)
-    return render_template('problemA.html', result=[])
+        return render_template('sign_in.html', result=result)
+    return render_template('sign_in.html', result=[])
 
 @app.route('/b', methods=['GET', 'POST'])
 def problemB():

@@ -3,14 +3,16 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Problem A</h1>
+    <h1>Sign-in</h1>
 </div>
 
-<label class="control-label" for="price">Enter the budget you have. 
-    <br>Will display Best PC you can purchase.</label>
 <form method="POST" action ="/">
     <div>
-        <input class="form-control" id="price" name="price" required="" type="text" value="">
+        <label class="control-label" for="id">ID</label>
+        <input class="form-control" id="id" name="id" required="" type="text" value="">
+        <label class="control-label" for="pw">Password</label>
+        <input class="form-control" id="pw" name="pw" required="" type="text" value="">
+        
         <br>
     </div>
 
