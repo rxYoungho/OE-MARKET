@@ -11,7 +11,7 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 conn = sqlite3.connect('OEDB.db', check_same_thread=False)
-
+uid= -1;
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -195,7 +195,7 @@ def addPreference():
 def deletePreference():
     return render_template('deletePreference.html')
 
-@app.route('searchCategory', methods=['GET','POST'])
+@app.route('searchCategory', methods=['GET','POST'])# 카테고리별로 나열
 def searchCategory():
     return render_template('searchCategory.html')
 

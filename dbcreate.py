@@ -55,7 +55,9 @@ cur.execute('''CREATE TABLE Product (
                 name varchar(45) NOT NULL,
                 price integer NOT NULL,
                 stock integer NOT NULL,
-                pinfo varchar(200) DEFAULT NULL
+                pinfo varchar(200) DEFAULT NULL,
+                producerid integer,
+                FOREIGN KEY (producerid) REFERENCE Producer(producerid)
             )''')
 
 cur.execute('''DROP TABLE IF EXISTS ProductCategory''')
