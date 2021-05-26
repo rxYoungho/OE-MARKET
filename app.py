@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from flask import Flask, render_template, session, redirect, url_for, flash, request
+from flask import Flask, render_template, session, render_template, url_for, flash, request
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
@@ -12,7 +12,7 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 conn = sqlite3.connect('OEDB.db', check_same_thread=False)
 cur = conn.cursor()
-uid= -1;
+uid= -1
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -231,66 +231,352 @@ def updateCart():
 
 @app.route('/addOrder', methods=['GET','POST'])
 def addOrder():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        pid = int(request.form['pid'])
+        quantity = int(request.form['quantity'])
+        orderDate = str(request.form['orderDate'])
+        zipCode = str(request.form['zipCode'])
+        state = str(request.form['state'])
+        city = str(request.form['city'])
+        street = str(request.form['street'])
+
+        query = f"""
+                INSERT INTO Shipping (uid, pid, quantity, orderDate, zipCode, state, city, street)
+                VALUES ({uid},{pid},{quantity},{orderDate},{zipCode},{state},{city},{street});
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('addOrder.html', result_set)
     return render_template('addOrder.html')
     
 @app.route('/addProducer', methods=['GET','POST'])
 def addProducer():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        producerid = int(request.form['producerid'])
+        country = str(request.form['country'])
+        brand = str(request.form['brand'])
+
+        query = f"""
+                INSERT INTO Producer (producerid, country, brand)
+                VALUES ({producerid},{country},{brand});
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('addProducer.html', result_set)
     return render_template('addProducer.html')
     
 @app.route('/addProduct', methods=['GET','POST'])
 def addProduct():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        name = int(request.form['name'])
+        price = int(request.form['price'])
+        stock = int(request.form['stock'])
+        pinfo = str(request.form['pinfo'])
+        producerid = str(request.form['producerid'])
+
+        query = f"""
+                INSERT INTO Product (pid, name, price, stock, pinfo, producerid)
+                VALUES ({name},{price},{stock},{pinfo},{producerid});
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('addProduct.html', result_set)
     return render_template('addProduct.html')
     
 @app.route('/addShipping', methods=['GET','POST'])
 def addShipping():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        pid = int(request.form['pid'])
+        quantity = int(request.form['quantity'])
+        orderDate = str(request.form['orderDate'])
+        zipCode = str(request.form['zipCode'])
+        state = str(request.form['state'])
+        city = str(request.form['city'])
+        street = str(request.form['street'])
+
+        query = f"""
+                INSERT INTO Shipping (uid, pid, quantity, orderDate, zipCode, state, city, street)
+                VALUES ({uid},{pid},{quantity},{orderDate},{zipCode},{state},{city},{street});
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('addShipping.html', result_set)
     return render_template('addShipping.html')
     
 @app.route('/deleteOrder', methods=['GET','POST'])
 def deleteOrder():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        orderid = int(request.form['orderid'])
+
+        query = f"""
+                DELETE FROM Order
+                WHERE orderid = {orderid}
+                """
+        cur.execute(query)
+
+        query = "SELECT * FROM Order"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('deleteOrder.html', result_set)
     return render_template('deleteOrder.html')
     
 @app.route('/deleteProducer', methods=['GET','POST'])
 def deleteProducer():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        producerid = int(request.form['producerid'])
+
+        query = f"""
+                DELETE FROM Producer
+                WHERE producerid = {producerid}
+                """
+        cur.execute(query)
+
+        query = "SELECT * FROM Producer"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('deleteProducer.html', result_set)
     return render_template('deleteProducer.html')
     
 @app.route('/deleteProduct', methods=['GET','POST'])
 def deleteProduct():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        pid = int(request.form['pid'])
+
+        query = f"""
+                DELETE FROM Product
+                WHERE pid = {pid}
+                """
+        cur.execute(query)
+
+        query = "SELECT * FROM Product"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('deleteProduct.html', result_set)
     return render_template('deleteProduct.html')
     
 @app.route('/deleteShipping', methods=['GET','POST'])
 def deleteShipping():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        shippingid = int(request.form['shippingid'])
+
+        query = f"""
+                DELETE FROM Shipping
+                WHERE orderid = {shippingid}
+                """
+        cur.execute(query)
+
+        query = "SELECT * FROM Shipping"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('deleteShipping.html', result_set)
     return render_template('deleteShipping.html')
     
 @app.route('/searchOrder', methods=['GET','POST'])
 def searchOrder():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        orderid = int(request.form['orderid'])
+
+        query = f"""
+                SELECT * FROM Shipping
+                WHERE orderid = {orderid} AND uid = {uid}
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('searchOrder.html', result_set)
     return render_template('searchOrder.html')
     
 @app.route('/searchProducer', methods=['GET','POST'])
 def searchProducer():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        producerid = int(request.form['producerid'])
+
+        query = f"""
+                SELECT * FROM Producer
+                WHERE producerid = {producerid}
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('searchProducer.html', result_set)
     return render_template('searchProducer.html')
     
 @app.route('/searchProduct', methods=['GET','POST'])
 def searchProduct():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        pid = int(request.form['pid'])
+
+        query = f"""
+                SELECT * FROM Product
+                WHERE pid = {pid}
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('searchProduct.html', result_set)
     return render_template('searchProduct.html')
     
 @app.route('/shippingHistory', methods=['GET','POST'])
 def shippingHistory():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        query = f"""
+                SELECT * FROM Shipping
+                WHERE uid = {uid}
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('shippingHistory.html', result_set)
     return render_template('shippingHistory.html')
     
 @app.route('/updateOrder', methods=['GET','POST'])
 def updateOrder():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        orderid = int(request.form['orderid'])
+        zipcode = str(request.form['zipcode'])
+        state = str(request.form['state'])
+        city = str(request.form['city'])
+        street = str(request.form['street'])
+
+        query = f"""
+                UPDATE Shipping 
+                SET zipcode={zipcode}, state={state}, city={city},
+                    street={street}
+                WHERE uid = {uid} and orderid = {orderid}
+                """
+        cur.execute(query)
+        
+        query = "SELECT * FROM Shipping WHERE uid = {uid}"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('updateOrder.html', result_set)
     return render_template('updateOrder.html')
     
 @app.route('/updateProducer', methods=['GET','POST'])
 def updateProducer():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        producerid = int(request.form['producerid'])
+        country = str(request.form['country'])
+        brand = str(request.form['brand'])
+
+        query = f"""
+                UPDATE Producer 
+                SET country={country}, brand={brand}
+                WHERE producerid = {producerid}
+                """
+        cur.execute(query)
+        
+        query = "SELECT * FROM Producer WHERE producerid = {producerid}"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('updateProducer.html', result_set)
     return render_template('updateProducer.html')
     
 @app.route('/updateProduct', methods=['GET','POST'])
 def updateProduct():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        producerid = int(request.form['producerid'])
+        name = str(request.form['name'])
+        price = int(request.form['price'])
+        stock = int(request.form['stock'])
+        pid = int(request.form['pid'])
+        pinfo = str(request.form['pinfo'])
+
+        query = f"""
+                UPDATE Product 
+                SET name={name}, price={price}, stock={stock}, pinfo={pinfo}
+                ,producerid={producerid}
+                WHERE pid = {pid}
+                """
+        cur.execute(query)
+        
+        query = "SELECT * FROM Producer WHERE producerid = {producerid}"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('updateProduct.html', result_set)
     return render_template('updateProduct.html')
     
 @app.route('/updateShipping', methods=['GET','POST'])
 def updateShipping():
+    global uid
+    if uid == -1:
+        render_template("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        shippingid = int(request.form['shippingid'])
+        zipcode = str(request.form['zipcode'])
+        state = str(request.form['state'])
+        city = str(request.form['city'])
+        street = str(request.form['street'])
+
+        query = f"""
+                UPDATE Shipping 
+                SET zipcode={zipcode}, state={state}, city={city},
+                    street={street}
+                WHERE uid = {uid} and orderid = {shippingid}
+                """
+        cur.execute(query)
+        
+        query = "SELECT * FROM Shipping WHERE uid = {uid}"
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('updateShipping.html', result_set)
     return render_template('updateShipping.html')
     
 if __name__ == '__main__':
