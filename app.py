@@ -11,7 +11,7 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 conn = sqlite3.connect('OEDB.db', check_same_thread=False)
-uid= -1;
+uid= -1
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -223,6 +223,24 @@ def updateCart():
 
 @app.route('addOrder', methods=['GET','POST'])
 def addOrder():
+    if uid == -1:
+        redirect("signIn.html")
+    result_set = []
+    if request.method == 'POST':
+        quantity = int(request.form['quantity'])
+        orderDate = str(request.form['orderDate'])
+        zipCode = str(request.form['zipCode'])
+        state = str(request.form['state'])
+        city = str(request.form['city'])
+        street = str(request.form['street'])
+
+        query = f"""
+                INSERT INTO Shipping (uid, pid, quantity, orderDate, zipCode, state, city, street)
+                VALUES ({uid},{pid},{quantity},{orderDate},{zipCode},{state},{city},{street});
+                """
+        for row in cur.execute(query):
+            result_set.append(row)
+        return render_template('addOrder.html', result_set)
     return render_template('addOrder.html')
     
 @app.route('addProducer', methods=['GET','POST'])
