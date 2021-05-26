@@ -4,6 +4,15 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Not Found</h1>
+    <h1>USER INFO</h1>
 </div>
+<div>
+    <p>
+        
+        <h4>User Name: {{ result[0] }}</h4>
+        <h4>User ID: {{ result[1] }}</h4>
+        <h4>User Password: {{ result[2] }}</h4>
+    </p>
+</div>
+
 {% endblock %}
