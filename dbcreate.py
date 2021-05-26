@@ -1,90 +1,152 @@
+"""
+Youngho Kim
+110710626
+
+youngho.kim@stonybrook.edu
+"""
 import os
 import sqlite3
 
 print(os.path.abspath(os.path.dirname(__file__)))
 
-conn = sqlite3.connect('JHps5.db')
+conn = sqlite3.connect('JHPps5.db')
 
 cur = conn.cursor()
 
 # Create tables
-cur.execute('''DROP TABLE IF EXISTS Products''')
-cur.execute('''CREATE TABLE Products
-               (maker TEXT, model Integer, type TEXT )''') 
+cur.execute('''DROP TABLE IF EXISTS Address''')
+cur.execute('''CREATE TABLE Address (
+                uid int NOT NULL,
+                zip varchar(45) NOT NULL,
+                state varchar(45) NOT NULL,
+                city varchar(45) NOT NULL,
+                street varchar(45) NOT NULL,
+                PRIMARY KEY (uid)
+            )''') # type: PC, laptop, printer
 
-cur.execute('''DROP TABLE IF EXISTS PCs''')
-cur.execute('''CREATE TABLE PCs
-               (model Integer, speed REAL, ram Integer, hd Integer, price Integer)''')
+cur.execute('''DROP TABLE IF EXISTS Cart''')
+cur.execute('''CREATE TABLE Cart (
+                uid int NOT NULL,
+                pid int NOT NULL,
+                date datetime NOT NULL,
+                PRIMARY KEY (uid)
+            )''')
+            
+cur.execute('''DROP TABLE IF EXISTS CategoryPreference''')
+cur.execute('''CREATE TABLE CategoryPreference (
+                uid int NOT NULL,
+                CategoryPreferencecol varchar(45) DEFAULT NULL,
+                PRIMARY KEY (uid)
+            )''')
 
-cur.execute('''DROP TABLE IF EXISTS Laptops''')
-cur.execute('''CREATE TABLE Laptops
-               (model Integer, speed REAL, ram Integer, hd Integer, screen Integer, price Integer)''')
+cur.execute('''DROP TABLE IF EXISTS Producer''')
+cur.execute('''CREATE TABLE Producer (
+                producerid int NOT NULL,
+                country varchar(45) DEFAULT NULL,
+                brand varchar(45) DEFAULT NULL,
+                PRIMARY KEY (producerid)
+            )''')
 
-cur.execute('''DROP TABLE IF EXISTS Printers''')
-cur.execute('''CREATE TABLE Printers
-               (model Integer, color TEXT, type TEXT, price Integer)''') 
+cur.execute('''DROP TABLE IF EXISTS Product''')
+cur.execute('''CREATE TABLE Product (
+                pid int NOT NULL,
+                name varchar(45) NOT NULL,
+                price int NOT NULL,
+                stock int NOT NULL,
+                pinfo varchar(200) DEFAULT NULL,
+                PRIMARY KEY (pid)
+            )''')
+
+cur.execute('''DROP TABLE IF EXISTS ProductCategory''')
+cur.execute('''CREATE TABLE ProductCategory (
+                pid int NOT NULL,
+                category varchar(45) NOT NULL,
+                PRIMARY KEY (pid)
+            )''') 
+
+cur.execute('''DROP TABLE IF EXISTS Purchase''')
+cur.execute('''CREATE TABLE Purchase (
+                purchaseid int NOT NULL,
+                uid int NOT NULL,
+                pid int NOT NULL,
+                quantity int NOT NULL,
+                date datetime NOT NULL,
+                zipcode varchar(45) DEFAULT NULL,
+                state varchar(45) DEFAULT NULL,
+                city varchar(45) DEFAULT NULL,
+                street varchar(45) DEFAULT NULL,
+                PRIMARY KEY (purchaseid)
+            )''') 
+
+cur.execute('''DROP TABLE IF EXISTS Selling''')
+cur.execute('''CREATE TABLE Selling (
+                sid int NOT NULL,
+                pid int NOT NULL,
+                Date datetime NOT NULL,
+                PRIMARY KEY (sid)
+            )''') 
+
+cur.execute('''DROP TABLE IF EXISTS Shipping''')
+cur.execute('''CREATE TABLE Shipping (
+                orderid int NOT NULL,
+                uid int NOT NULL,
+                pid int NOT NULL,
+                quantity int NOT NULL,
+                orderDate datetime NOT NULL,
+                zipcode varchar(45) NOT NULL,
+                state varchar(45) NOT NULL,
+                city varchar(45) NOT NULL,
+                street varchar(45) NOT NULL,
+                PRIMARY KEY (orderid)
+            )''') 
+
+cur.execute('''DROP TABLE IF EXISTS User''')
+cur.execute('''CREATE TABLE User (
+                uid int NOT NULL,
+                id varchar(45) NOT NULL,
+                pw varchar(45) NOT NULL,
+                name varchar(45) NOT NULL,
+                zip varchar(45) NOT NULL,
+                PRIMARY KEY (uid)
+            )''') 
                
 
-# Insert Products
-cur.execute("INSERT INTO Products VALUES ('Samsung', '1', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Samsung', '2', 'Printer')")
-cur.execute("INSERT INTO Products VALUES ('Samsung', '3', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('Samsung', '4', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('LG', '5', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('LG', '6', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('LG', '7', 'Printer')")
-cur.execute("INSERT INTO Products VALUES ('LG', '8', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('LG', '9', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('LG', '10', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Apple', '11', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Apple', '12', 'Printer')")
-cur.execute("INSERT INTO Products VALUES ('Apple', '13', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('Apple', '14', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('Dell', '15', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('Dell', '16', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('Dell', '17', 'Printer')")
-cur.execute("INSERT INTO Products VALUES ('Dell', '18', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Asus', '19', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Asus', '20', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Asus', '21', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Lenovo', '22', 'Laptop')")
-cur.execute("INSERT INTO Products VALUES ('Lenovo', '23', 'Printer')")
-cur.execute("INSERT INTO Products VALUES ('Lenovo', '24', 'PC')")
-cur.execute("INSERT INTO Products VALUES ('Lenovo', '25', 'Printer')")
-
-# Insert PCs
-cur.execute("INSERT INTO PCs VALUES ( '1', 2.3, 8, 1000, 998000 )")
-cur.execute("INSERT INTO PCs VALUES ( '5', 1.6, 8, 550, 698000 )")
-cur.execute("INSERT INTO PCs VALUES ( '6', 2.2, 16, 1000, 1138000 )")
-cur.execute("INSERT INTO PCs VALUES ( '10', 2.0, 32, 1000, 2280000 )")
-cur.execute("INSERT INTO PCs VALUES ( '11', 1.0, 4, 1000, 1778000 )")
-cur.execute("INSERT INTO PCs VALUES ( '15', 3.0, 32, 5000, 1680000 )")
-cur.execute("INSERT INTO PCs VALUES ( '18', 1.5, 8, 25600, 1140000 )")
-cur.execute("INSERT INTO PCs VALUES ( '19', 2.0, 8, 51200, 122000 )")
-cur.execute("INSERT INTO PCs VALUES ( '20', 2.23, 8, 51200, 1230000 )")
-cur.execute("INSERT INTO PCs VALUES ( '21', 2.42, 16, 51200, 1180000 )")
-cur.execute("INSERT INTO PCs VALUES ( '24', 2.61, 16, 102400, 2680000 )")
-# Insert Laptops
-cur.execute("INSERT INTO Laptops VALUES ( '3', 1.4, 8, 550, 11, 490000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '4', 1.4, 8, 1000, 15, 870000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '8', 1.4, 8, 1000, 13, 990000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '9', 1.4, 8, 550, 11, 640000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '13', 2.0, 16, 1000, 11, 1380000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '14', 2.0, 16, 1000, 15, 1660000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '15', 2.0, 16, 1000, 15, 1660000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '16', 2.0, 16, 1000, 15, 1660000 )")
-cur.execute("INSERT INTO Laptops VALUES ( '22', 2.0, 16, 1000, 15, 1660000 )")
-
-# Insert Printers
-cur.execute("INSERT INTO Printers VALUES ( '2', 'True', 'Laser', 370000 )")
-cur.execute("INSERT INTO Printers VALUES ( '25', 'True', 'Laser', 270000 )")
-cur.execute("INSERT INTO Printers VALUES ( '7', 'False', 'Laser', 270000 )")
-cur.execute("INSERT INTO Printers VALUES ( '12', 'True', 'Ink-jet', 440000 )")
-cur.execute("INSERT INTO Printers VALUES ( '17', 'True', 'Ink-jet', 300000 )")
-cur.execute("INSERT INTO Printers VALUES ( '23', 'True', 'Ink-jet', 550000 )")
-
-
+# # Insert rows of data for Products
+# cur.execute("INSERT INTO Products VALUES ('Samsung', '1001', 'PC')")
+# cur.execute("INSERT INTO Products VALUES ('Samsung', '1002', 'Printer')")
+# cur.execute("INSERT INTO Products VALUES ('ASUS', '1003', 'Laptop')")
+# cur.execute("INSERT INTO Products VALUES ('Apple', '1004', 'Laptop')")
+# cur.execute("INSERT INTO Products VALUES ('LG', '1005', 'PC')")
+# cur.execute("INSERT INTO Products VALUES ('LG', '1006', 'PC')")
+# cur.execute("INSERT INTO Products VALUES ('Apple', '1007', 'Printer')")
+# cur.execute("INSERT INTO Products VALUES ('ASUS', '1008', 'Laptop')")
+# cur.execute("INSERT INTO Products VALUES ('Samsung', '1009', 'Laptop')")
+# cur.execute("INSERT INTO Products VALUES ('LG', '1010', 'PC')")
+# cur.execute("INSERT INTO Products VALUES ('Samsung', '1011', 'PC')")
+# cur.execute("INSERT INTO Products VALUES ('Samsung', '1012', 'Printer')")
+# cur.execute("INSERT INTO Products VALUES ('ASUS', '1013', 'Laptop')")
+# cur.execute("INSERT INTO Products VALUES ('Apple', '1014', 'Laptop')")
+# cur.execute("INSERT INTO Products VALUES ('LG', '1015', 'PC')")
+# cur.execute("INSERT INTO Products VALUES ('LG', '1016', 'Printer')")
+# # Insert rows of data for PCs
+# cur.execute("INSERT INTO PCs VALUES ( '1001', 2.0, 8, 1000, 898000 )")
+# cur.execute("INSERT INTO PCs VALUES ( '1005', 1.4, 8, 550, 798000 )")
+# cur.execute("INSERT INTO PCs VALUES ( '1006', 2.0, 16, 1000, 1028000 )")
+# cur.execute("INSERT INTO PCs VALUES ( '1010', 2.0, 32, 1000, 2000000 )")
+# cur.execute("INSERT INTO PCs VALUES ( '1011', 1.4, 8, 1000, 1728000 )")
+# cur.execute("INSERT INTO PCs VALUES ( '1015', 2.0, 8, 1000, 1680000 )")
+# # Insert rows of data for Laptops
+# cur.execute("INSERT INTO Laptops VALUES ( '1003', 1.4, 8, 550, 11, 490000 )")
+# cur.execute("INSERT INTO Laptops VALUES ( '1004', 1.4, 8, 1000, 15, 870000 )")
+# cur.execute("INSERT INTO Laptops VALUES ( '1008', 1.4, 8, 1000, 13, 990000 )")
+# cur.execute("INSERT INTO Laptops VALUES ( '1009', 1.4, 8, 550, 11, 640000 )")
+# cur.execute("INSERT INTO Laptops VALUES ( '1013', 2.0, 16, 1000, 11, 1380000 )")
+# cur.execute("INSERT INTO Laptops VALUES ( '1014', 2.0, 16, 1000, 15, 1660000 )")
+# # Insert rows of data for Printers
+# cur.execute("INSERT INTO Printers VALUES ( '1002', 'Color', 'Laser', 370000 )")
+# cur.execute("INSERT INTO Printers VALUES ( '1007', 'NonColor', 'Laser', 270000 )")
+# cur.execute("INSERT INTO Printers VALUES ( '1012', 'Color', 'Ink-jet', 440000 )")
+# cur.execute("INSERT INTO Printers VALUES ( '1016', 'Color', 'Ink-jet', 270000 )")
 
 conn.commit()
-cur = conn.cursor()
 conn.close()
