@@ -24,7 +24,7 @@ def internal_server_error(e):
 
 
 @app.route('/', methods=['GET', 'POST'])
-def sign_in():
+def indexA():
     result_set = []
     if request.method == 'POST':
         price = int(request.form['price'])
@@ -33,8 +33,8 @@ def sign_in():
         for row in cur.execute(query):
             result_set.append(row)
         result = result_set[0]
-        return render_template('sign_in.html', result=result)
-    return render_template('sign_in.html', result=[])
+        return render_template('indexA.html', result=result)
+    return render_template('indexA.html', result=[])
 
 @app.route('/b', methods=['GET', 'POST'])
 def problemB():
@@ -155,5 +155,135 @@ def peoblemE():
             return render_template('problemE.html', result="INSERT SUCCESS!")
     return render_template('problemE.html', result="")
    
+@app.route('signUp', methods=['GET','POST'])
+def signUp():
+    return render_template('signUp.html')
+    
+@app.route('signIn', methods=['GET','POST'])
+def signIn():
+    return render_template('signIn.html')
+
+@app.route('signOut', methods=['GET','POST'])
+def signOut():
+    return render_template('signOut.html')
+
+@app.route('userInfo', methods=['GET','POST'])
+def userInfo():
+    return render_template('userInfo.html')
+
+@app.route('searchUsers', methods=['GET','POST'])
+def searchUsers():
+    return render_template('searchUsers.html')
+
+@app.route('updateUsers', methods=['GET','POST'])
+def updateUsers():
+    return render_template('updateUsers.html')
+
+@app.route('deleteUsers', methods=['GET','POST'])
+def deleteUsers():
+    return render_template('deleteUsers.html')
+
+@app.route('myPreference', methods=['GET','POST'])
+def myPreference():
+    return render_template('myPreference.html')
+
+@app.route('addPreference', methods=['GET','POST'])
+def addPreference():
+    return render_template('addPreference.html')
+
+@app.route('deletePreference', methods=['GET','POST'])
+def deletePreference():
+    return render_template('deletePreference.html')
+
+@app.route('searchCategory', methods=['GET','POST'])
+def searchCategory():
+    return render_template('searchCategory.html')
+
+@app.route('addCategory', methods=['GET','POST'])
+def addCategory():
+    return render_template('addCategory.html')
+
+@app.route('deleteCategory', methods=['GET','POST'])
+def deleteCategory():
+    return render_template('deleteCategory.html')
+
+@app.route('myCart', methods=['GET','POST'])
+def myCart():
+    return render_template('myCart.html')
+
+@app.route('addToCart', methods=['GET','POST'])
+def addToCart():
+    return render_template('addToCart.html')
+
+@app.route('updateCart', methods=['GET','POST'])
+def updateCart():
+    return render_template('updateCart.html')
+
+# YHK #####
+
+@app.route('addOrder', methods=['GET','POST'])
+def addOrder():
+    return render_template('addOrder.html')
+    
+@app.route('addProducer', methods=['GET','POST'])
+def addProducer():
+    return render_template('addProducer.html')
+    
+@app.route('addProduct', methods=['GET','POST'])
+def addProduct():
+    return render_template('addProduct.html')
+    
+@app.route('addShipping', methods=['GET','POST'])
+def addShipping():
+    return render_template('addShipping.html')
+    
+@app.route('deleteOrder', methods=['GET','POST'])
+def deleteOrder():
+    return render_template('deleteOrder.html')
+    
+@app.route('deleteProducer', methods=['GET','POST'])
+def deleteProducer():
+    return render_template('deleteProducer.html')
+    
+@app.route('deleteProduct', methods=['GET','POST'])
+def deleteProduct():
+    return render_template('deleteProduct.html')
+    
+@app.route('deleteShipping', methods=['GET','POST'])
+def deleteShipping():
+    return render_template('deleteShipping.html')
+    
+@app.route('searchOrder', methods=['GET','POST'])
+def searchOrder():
+    return render_template('searchOrder.html')
+    
+@app.route('searchProducer', methods=['GET','POST'])
+def searchProducer():
+    return render_template('searchProducer.html')
+    
+@app.route('searchProduct', methods=['GET','POST'])
+def searchProduct():
+    return render_template('searchProduct.html')
+    
+@app.route('shippingHistory', methods=['GET','POST'])
+def shippingHistory():
+    return render_template('shippingHistory.html')
+    
+@app.route('updateOrder', methods=['GET','POST'])
+def updateOrder():
+    return render_template('updateOrder.html')
+    
+@app.route('updateProducer', methods=['GET','POST'])
+def updateProducer():
+    return render_template('updateProducer.html')
+    
+@app.route('updateProduct', methods=['GET','POST'])
+def updateProduct():
+    return render_template('updateProduct.html')
+    
+@app.route('updateShipping', methods=['GET','POST'])
+def updateShipping():
+    return render_template('updateShipping.html')
+    
 if __name__ == '__main__':
     app.run(host = '127.0.0.1', debug=True)        
