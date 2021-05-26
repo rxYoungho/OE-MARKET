@@ -1,0 +1,135 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">User</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Sign-up</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/b">Sign-in</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/c">Sign-out</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">User Info</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/c">Search Users</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/c">Update Users</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/c">Delete Users</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/d">My Preference</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/d">Add Preference</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/d">Delete Preference</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/d">My Cart</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Add to Cart</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Update Cart</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Delete from Cart</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Search Producer</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/b">Add Producer</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/c">Update Producer</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/c">Delete Producer</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/d">Search Order</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Add Order</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Update Order</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Delete Order</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Shipping history</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Add Shipping</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Update Shipping</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Delete Shipping</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Search product</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Add product</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Update product</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/e">Delete product</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}

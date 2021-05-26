@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}CSE305/532 AS5_C{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Problem C</h1>
+</div>
+
+
+<form method="POST" action="/c">
+    <label class="control-label" for="manufacturer">Enter a Manufacturer.</label>
+    <input class="form-control" id="manufacturer" name="manufacturer" required="" type="text" value="">
+    <br>
+    <div class='button'>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+<div>
+    <p>
+        {% for item in result %}
+        <h4>Matching : {{ item }}</h4>
+        {% endfor %}
+    </p>
+</div>
+<div>
+    <p>
+        <h2>Query Used:</h2>
+        <h4>SELECT pc.model, p.maker, p.type, price, speed, ram, hd, NULL AS color</h4>
+        <h4>FROM Products p,  PCs pc WHERE p.maker = '{manufacturer}' AND p.model = pc.model</h4>
+        <h4>UNION</h4>
+        <h4>SELECT Printers.model, p.maker, p.type, price, color, Printers.type, NULL AS hd, NULL AS screen</h4>
+        <h4>FROM Products p, Printers </h4>
+        <h4>WHERE maker = '{manufacturer}' AND p.model = Printers.model</h4>
+        <h4>UNION</h4>
+        <h4>SELECT l.model, p.maker, p.type, l.price, l.speed, l.ram, l.hd, l.screen</h4>
+        <h4>FROM Products p, Laptops l</h4>
+        <h4>WHERE maker = '{manufacturer} AND p.model = l.model'</h4>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}CSE305/532 AS5_A{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Problem A</h1>
+</div>
+
+<label class="control-label" for="price">Enter the budget you have. 
+    <br>Will display Best PC you can purchase.</label>
+<form method="POST" action ="/">
+    <div>
+        <input class="form-control" id="price" name="price" required="" type="text" value="">
+        <br>
+    </div>
+
+    <div class='button'>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+<div>
+    <p>
+        <h3>Maker: {{ result[0] }}</h3>
+        <h3>Model Number: {{ result[1] }}</h3>
+        <h3>Speed of PC: {{ result[2] }} Ghz</h3>
+    </p>
+</div>
+<br>
+<div>
+    <p>
+        <h2>Query Used:</h2>
+        <h4>SELECT P.maker, P.model, PC.speed FROM Products P, PCs PC WHERE P.model = PC.model ORDER BY ABS(PC.price - {price}) LIMIT 1</h4>
+    </p>
+</div>
+    
+{% endblock %}

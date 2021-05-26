@@ -1,0 +1,3 @@
+Flask==1.1.2
+Flask_Bootstrap==3.3.7.1
+Flask_Moment==0.11.0
