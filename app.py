@@ -11,6 +11,7 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 conn = sqlite3.connect('OEDB.db', check_same_thread=False)
+cur = conn.cursor()
 uid= -1;
 
 @app.errorhandler(404)
@@ -157,6 +158,13 @@ def peoblemE():
    
 @app.route('/signUp', methods=['POST'])
 def signUp():
+    result_set = []
+    if request.method == 'POST':
+        name = request.form['name']
+        id = request.form['id']
+        pw = request.form['pw']
+        query = f"""
+                INSERT INTO USER(id, pw, name) VALUES('{}','{}','{}')"""
     return render_template('signUp.html')
     
 @app.route('/signIn', methods=['GET','POST'])
