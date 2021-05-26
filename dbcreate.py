@@ -9,39 +9,41 @@ import sqlite3
 
 print(os.path.abspath(os.path.dirname(__file__)))
 
-conn = sqlite3.connect('JHPps5.db')
+conn = sqlite3.connect('OEDB.db')
 
 cur = conn.cursor()
 
 # Create tables
 cur.execute('''DROP TABLE IF EXISTS Address''')
 cur.execute('''CREATE TABLE Address (
-                uid int NOT NULL,
+                uid integer NOT NULL ,
                 zip varchar(45) NOT NULL,
                 state varchar(45) NOT NULL,
                 city varchar(45) NOT NULL,
                 street varchar(45) NOT NULL,
-                PRIMARY KEY (uid)
-            )''') # type: PC, laptop, printer
+                FOREIGN KEY(uid) REFERENCES User(uid) ON DELETE CASCADE
+            )''') 
 
 cur.execute('''DROP TABLE IF EXISTS Cart''')
 cur.execute('''CREATE TABLE Cart (
-                uid int NOT NULL,
-                pid int NOT NULL,
+                uid integer NOT NULL,
+                pid integer NOT NULL,
                 date datetime NOT NULL,
-                PRIMARY KEY (uid)
+                FOREIGN KEY(uid) REFERENCES User(uid) ON DELETE CASCADE,
+                FOREIGN KEY(pid) REFERENCES Product(pid) ON DELETE CASCADE
             )''')
             
 cur.execute('''DROP TABLE IF EXISTS CategoryPreference''')
 cur.execute('''CREATE TABLE CategoryPreference (
-                uid int NOT NULL,
+                uid integer NOT NULL,
                 CategoryPreferencecol varchar(45) DEFAULT NULL,
-                PRIMARY KEY (uid)
+                PRIMARY KEY (uid,CategoryPreferencecol),
+                FOREIGN KEY(uid) REFERENCES User(uid) ON DELETE CASCADE
             )''')
 
 cur.execute('''DROP TABLE IF EXISTS Producer''')
 cur.execute('''CREATE TABLE Producer (
-                producerid int NOT NULL,
+                producerid integer NOT NULL,
                 country varchar(45) DEFAULT NULL,
                 brand varchar(45) DEFAULT NULL,
                 PRIMARY KEY (producerid)
@@ -49,65 +51,68 @@ cur.execute('''CREATE TABLE Producer (
 
 cur.execute('''DROP TABLE IF EXISTS Product''')
 cur.execute('''CREATE TABLE Product (
-                pid int NOT NULL,
+                pid integer NOT NULL PRIMARY KEY AUTOINCREMENT,
                 name varchar(45) NOT NULL,
-                price int NOT NULL,
-                stock int NOT NULL,
-                pinfo varchar(200) DEFAULT NULL,
-                PRIMARY KEY (pid)
+                price integer NOT NULL,
+                stock integer NOT NULL,
+                pinfo varchar(200) DEFAULT NULL
             )''')
 
 cur.execute('''DROP TABLE IF EXISTS ProductCategory''')
 cur.execute('''CREATE TABLE ProductCategory (
-                pid int NOT NULL,
+                pid integer NOT NULL,
                 category varchar(45) NOT NULL,
-                PRIMARY KEY (pid)
+                PRIMARY KEY (pid, category),
+                FOREIGN KEY(pid) REFERENCES Product(pid) ON DELETE CASCADE
             )''') 
 
 cur.execute('''DROP TABLE IF EXISTS Purchase''')
 cur.execute('''CREATE TABLE Purchase (
-                purchaseid int NOT NULL,
-                uid int NOT NULL,
-                pid int NOT NULL,
-                quantity int NOT NULL,
+                purchaseid integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                uid integer NOT NULL,
+                pid integer NOT NULL,
+                quantity integer NOT NULL,
                 date datetime NOT NULL,
                 zipcode varchar(45) DEFAULT NULL,
                 state varchar(45) DEFAULT NULL,
                 city varchar(45) DEFAULT NULL,
                 street varchar(45) DEFAULT NULL,
-                PRIMARY KEY (purchaseid)
+                
+                FOREIGN KEY(uid) REFERENCES User(uid) ON DELETE CASCADE,
+                FOREIGN KEY(pid) REFERENCES Product(pid) ON DELETE CASCADE
             )''') 
 
 cur.execute('''DROP TABLE IF EXISTS Selling''')
 cur.execute('''CREATE TABLE Selling (
-                sid int NOT NULL,
-                pid int NOT NULL,
+                sid integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                pid integer NOT NULL,
                 Date datetime NOT NULL,
-                PRIMARY KEY (sid)
+                FOREIGN KEY(pid) REFERENCES Product(pid) ON DELETE CASCADE
             )''') 
 
 cur.execute('''DROP TABLE IF EXISTS Shipping''')
 cur.execute('''CREATE TABLE Shipping (
-                orderid int NOT NULL,
-                uid int NOT NULL,
-                pid int NOT NULL,
-                quantity int NOT NULL,
+                orderid integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                uid integer NOT NULL,
+                pid integer NOT NULL,
+                quantity integer NOT NULL,
                 orderDate datetime NOT NULL,
                 zipcode varchar(45) NOT NULL,
                 state varchar(45) NOT NULL,
                 city varchar(45) NOT NULL,
                 street varchar(45) NOT NULL,
-                PRIMARY KEY (orderid)
+                FOREIGN KEY(uid) REFERENCES User(uid) ON DELETE CASCADE,
+                FOREIGN KEY(pid) REFERENCES Product(pid) ON DELETE CASCADE
+    
             )''') 
 
 cur.execute('''DROP TABLE IF EXISTS User''')
 cur.execute('''CREATE TABLE User (
-                uid int NOT NULL,
+                uid integer NOT NULL PRIMARY KEY AUTOINCREMENT,
                 id varchar(45) NOT NULL,
                 pw varchar(45) NOT NULL,
-                name varchar(45) NOT NULL,
-                zip varchar(45) NOT NULL,
-                PRIMARY KEY (uid)
+                name varchar(45) NOT NULL
+                
             )''') 
                
 
