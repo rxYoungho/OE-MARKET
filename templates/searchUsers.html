@@ -4,6 +4,38 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Not Found</h1>
+    <h1>Search Users</h1>
 </div>
+<form method="POST" action="/searchUsers">
+    <label class="control-label" for="id">Search by ID</label>
+    <input class="form-control" id="id" name="id" required="" type="text" value="">
+    <br>
+    <div class='button'>
+        <button type="submit">Search</button>
+    </div>
+</form>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in result %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[3] }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
 {% endblock %}

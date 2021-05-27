@@ -84,7 +84,7 @@ def userInfo():
     return render_template('userInfo.html', result= [])
 
 @app.route('/searchUsers', methods=['GET','POST'])
-def searchUsers():
+def searchUsers(): # primary key checking
     global uid
     resultSet = []
     if uid == -1:
@@ -118,7 +118,7 @@ def updateUsers():
         pw = request.form['pw'] 
 
         query = f"""
-                UPDATE User SET name = '{name}', id = '{id}', pw = '{pw}'
+                UPDATE User SET name = "{name}", id = "{id}", pw = "{pw}"
                 WHERE uid = {userId}"""
         cur.execute(query)
         conn.commit()
@@ -185,17 +185,18 @@ def deletePreference():
         category = request.form["category"]
         query = f"""
                 DELETE FROM CategoryPreference
-                WHERE uid = {userId} AND CategoryPreferencecol = '{category}'"""
+                WHERE uid = {uid} AND CategoryPreferencecol = "{category}" """
         cur.execute(query)
         conn.commit()
         flash("Preference Delete Complete!")
-    else:
-        query = f"""
-                SELECT CategoryPreferencecol FROM CategoryPreference
-                WHERE uid = {uid}"""
-        for row in cur.execute(query):
-            resultSet.append(row)
-        return render_template('deletePreference.html', result = resultSet)
+    return render_template('deletePreference.html')
+    # else:
+    #     query = f"""
+    #             SELECT CategoryPreferencecol FROM CategoryPreference
+    #             WHERE uid = {uid}"""
+    #     for row in cur.execute(query):
+    #         resultSet.append(row)
+    #     return render_template('deletePreference.html', result = resultSet)
     
 
 @app.route('/searchCategory', methods=['GET','POST'])# 카테고리별로 나열
@@ -206,7 +207,8 @@ def searchCategory():
         return render_template('signIn.html')
     else:
         query = f"""
-                SELECT * FROM ProductCategory
+                SELECT DISTINCT P.pid, name, category FROM ProductCategory P , Product D 
+                WHERE P.pid = D.pid
                 """
         for row in cur.execute(query):
             resultSet.append(row)    
@@ -255,8 +257,8 @@ def myCart():
         return render_template('signIn.html')
     else:
         query = f"""
-                SELECT * FROM Cart
-                WHERE uid = {uid}
+                SELECT DISTINCT C.pid, P.name, C.date FROM Cart C, Product P
+                WHERE  P.pid = C.pid AND C.uid = {uid}
                 """
         for row in cur.execute(query):
             resultSet.append(row)

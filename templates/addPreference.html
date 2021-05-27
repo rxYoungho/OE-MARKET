@@ -4,6 +4,14 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Not Found</h1>
+    <h1>Add Preference</h1>
 </div>
+<form method="POST" action="/addPreference">
+    <label class="control-label" for="category">Enter the Category you like</label>
+    <input class="form-control" id="category" name="category" required="" type="text" value="">
+    <br>
+    <div class='button'>
+        <button type="submit">Submit</button>
+    </div>
+</form>
 {% endblock %}
