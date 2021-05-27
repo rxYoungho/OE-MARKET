@@ -194,6 +194,7 @@ def signIn():
 
 @app.route('/signOut', methods=['GET','POST'])
 def signOut():
+    global uid
     uid = -1
     return render_template('signIn.html',result = "Successfully Logged Out!")
 
@@ -218,33 +219,112 @@ def searchUsers():
     resultSet = []
     if uid == -1:
         return render_template('signIn.html')
+    elif request.method == 'POST':
+        id = request.form['id']
+        query = f"""
+                SELECT * from User where uid = {id}"""
+        for row in cur.execute(query):
+            resultSet.append(row)
+        return render_template('searchUsers.html', result = resultSet)            
     else:
         query = f"""
                 SELECT * from User"""
         for row in cur.execute(query):
             resultSet.append(row)
-            
-    return render_template('searchUsers.html')
+        return render_template('searchUsers.html', result = resultSet)
+    
+
+    
 
 @app.route('/updateUsers', methods=['GET','POST'])
 def updateUsers():
+    if uid == -1:
+        return render_template('signIn.html')
+    elif request.method == 'POST':
+        userId = request.form['userId']
+        name = request.form['name']
+        id = request.form['id']
+        pw = request.form['pw'] 
+
+        query = f"""
+                UPDATE User SET name = '{name}', id = '{id}', pw = '{pw}'
+                WHERE uid = {userId}"""
+        cur.execute(query)
+        conn.commit()
+        flash("User Update Success!")
     return render_template('updateUsers.html')
 
 @app.route('/deleteUsers', methods=['GET','POST'])
 def deleteUsers():
+    if uid == -1:
+        return render_template('signIn.html')
+    elif request.method == 'POST':
+        userId = request.form['userId']
+
+        query = f"""
+                DELETE FROM User
+                WHERE uid = {userId}"""
+        cur.execute(query)
+        conn.commit()
+        flash("Delete Complete!")
     return render_template('deleteUsers.html')
 
 @app.route('/myPreference', methods=['GET','POST'])
 def myPreference():
-    return render_template('myPreference.html')
+    global uid
+    resultSet = []
+    if uid == -1:
+        return render_template('signIn.html')
+    else :
+        query = f"""
+                SELECT CategoryPreferencecol FROM CategoryPreference
+                WHERE uid = {uid}"""
+        for row in cur.execute(query):
+            resultSet.append(row)
+        
+        return render_template('myPreference.html', result = resultSet)
+    
 
 @app.route('/addPreference', methods=['GET','POST'])
 def addPreference():
+    global uid
+    if uid == -1:
+        return render_template('signIn.html')
+    elif request.method == 'POST':
+        category = request.form["category"]
+        query = f"""
+                INSERT INTO CategoryPreference
+                VALUES ({uid}, '{category}')"""
+        
+        cur.execute(query)
+        conn.commit()
+        flash("Category Insert Complete!")
+        
+
     return render_template('addPreference.html')
 
 @app.route('/deletePreference', methods=['GET','POST'])
 def deletePreference():
-    return render_template('deletePreference.html')
+    global uid
+    resultSet = []
+    if uid == -1:
+        return render_template('signIn.html')
+    elif request.method == 'POST':
+        category = request.form["category"]
+        query = f"""
+                DELETE FROM CategoryPreference
+                WHERE uid = {userId} AND CategoryPreferencecol = '{category}'"""
+        cur.execute(query)
+        conn.commit()
+        flash("Preference Delete Complete!")
+    else:
+        query = f"""
+                SELECT CategoryPreferencecol FROM CategoryPreference
+                WHERE uid = {uid}"""
+        for row in cur.execute(query):
+            resultSet.append(row)
+        return render_template('deletePreference.html', result = resultSet)
+    
 
 @app.route('/searchCategory', methods=['GET','POST'])# 카테고리별로 나열
 def searchCategory():
