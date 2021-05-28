@@ -28,14 +28,33 @@ def internal_server_error(e):
    
 @app.route('/signUp', methods=['GET','POST'])
 def signUp():
+    resultSet = []
     if request.method == 'POST':
         name = request.form['name']
         id = request.form['id']
         pw = request.form['pw']
+        zip = request.form['zip']
+        state = request.form['state']
+        city = request.form['city']
+        street = request.form['street']
         query = f"""
-                INSERT INTO User(id, pw, name) VALUES('{id}','{pw}','{name}')"""
+                INSERT INTO User(id, pw, name) VALUES("{id}","{pw}","{name}")"""
         cur.execute(query)
         conn.commit()
+
+        query = f"""
+                SELECT uid FROM User WHERE id = "{id}"
+        
+        """
+        for row in cur.execute(query):
+            resultSet.append(row)
+        uid = resultSet[0][0]
+        query = f"""
+                INSERT INTO Address VALUES("{uid}","{zip}","{state}","{city}","{street}")
+                """
+        cur.execute(query)
+        conn.commit()
+        flash("Sign up Complete")
         return render_template('signUp.html',result= name)
     return render_template('signUp.html', result = "")
     
@@ -70,16 +89,19 @@ def signOut():
 def userInfo():
     global uid
     resultSet = []
+    
     if uid == -1:
         return render_template('signIn.html')
     else:
         query = f"""
-                SELECT name, id, pw from User where uid = {uid}"""
+                SELECT U.name, U.id, U.pw, A.zip, A.state, A.city, A.street from User U, Address A 
+                where U.uid = {uid} AND U.uid = A.uid
+                """
         for row in cur.execute(query):
             resultSet.append(row)
         print(resultSet)
         if len(resultSet) > 0:
-            
+        
             return render_template('userInfo.html', result = resultSet[0])
     return render_template('userInfo.html', result= [])
 
@@ -257,7 +279,7 @@ def myCart():
         return render_template('signIn.html')
     else:
         query = f"""
-                SELECT DISTINCT C.pid, P.name, C.date FROM Cart C, Product P
+                SELECT DISTINCT C.pid, P.name, C.quantity, C.date FROM Cart C, Product P
                 WHERE  P.pid = C.pid AND C.uid = {uid}
                 """
         for row in cur.execute(query):
@@ -271,8 +293,9 @@ def addToCart():
         return render_template('signIn.html')
     elif request.method == 'POST':       
         pid = request.form["pid"]
+        quantity = int(request.form["quantity"])
         query = f"""
-                INSERT INTO Cart VALUES(uid = {uid}, pid = {pid})
+                INSERT INTO Cart VALUES(uid = {uid}, pid = {pid}, quantity = {quantity})
                 """
         cur.execute(query)
         conn.commit()
@@ -286,8 +309,9 @@ def updateCart(): #quantity 추가
         return render_template('signIn.html')
     elif request.method == 'POST':
         pid = request.form["pid"]
+        quantity = int(request.form["quantity"])
         query = f"""
-                UPDATE INTO Cart VALUES(uid = {uid}, pid = {pid})
+                UPDATE INTO Cart VALUES(uid = {uid}, pid = {pid}, quantity = {quantity})
                 """
     return render_template('updateCart.html')
 

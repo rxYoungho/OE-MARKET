@@ -1,8 +1,11 @@
 """
 Youngho Kim
 110710626
+Junghun Park
+110397805
 
 youngho.kim@stonybrook.edu
+junghun.park@stonybrook.edu
 """
 import os
 import sqlite3
@@ -29,6 +32,7 @@ cur.execute('''CREATE TABLE Cart (
                 uid integer NOT NULL,
                 pid integer NOT NULL,
                 date datetime NOT NULL,
+                quantity integer NOT NULL,
                 FOREIGN KEY(uid) REFERENCES User(uid) ON DELETE CASCADE,
                 FOREIGN KEY(pid) REFERENCES Product(pid) ON DELETE CASCADE
             )''')
@@ -45,19 +49,19 @@ cur.execute('''DROP TABLE IF EXISTS Producer''')
 cur.execute('''CREATE TABLE Producer (
                 producerid integer NOT NULL,
                 country varchar(45) DEFAULT NULL,
-                brand varchar(45) DEFAULT NULL,
+                brand varchar(45) DEFAULT NULL UNIQUE,
                 PRIMARY KEY (producerid)
             )''')
 
 cur.execute('''DROP TABLE IF EXISTS Product''')
 cur.execute('''CREATE TABLE Product (
                 pid integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-                name varchar(45) NOT NULL,
+                name varchar(45) NOT NULL UNIQUE,
                 price integer NOT NULL,
                 stock integer NOT NULL,
                 pinfo varchar(200) DEFAULT NULL,
                 producerid integer,
-                FOREIGN KEY (producerid) REFERENCE Producer(producerid)
+                FOREIGN KEY (producerid) REFERENCES Producer(producerid)
             )''')
 
 cur.execute('''DROP TABLE IF EXISTS ProductCategory''')
@@ -111,7 +115,7 @@ cur.execute('''CREATE TABLE Shipping (
 cur.execute('''DROP TABLE IF EXISTS User''')
 cur.execute('''CREATE TABLE User (
                 uid integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-                id varchar(45) NOT NULL,
+                id varchar(45) NOT NULL UNIQUE,
                 pw varchar(45) NOT NULL,
                 name varchar(45) NOT NULL
                 
