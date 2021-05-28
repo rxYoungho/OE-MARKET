@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from sqlite3.dbapi2 import IntegrityError
 from flask import Flask, render_template, session, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -29,33 +30,37 @@ def internal_server_error(e):
 @app.route('/signUp', methods=['GET','POST'])
 def signUp():
     resultSet = []
-    if request.method == 'POST':
-        name = request.form['name']
-        id = request.form['id']
-        pw = request.form['pw']
-        zip = request.form['zip']
-        state = request.form['state']
-        city = request.form['city']
-        street = request.form['street']
-        query = f"""
-                INSERT INTO User(id, pw, name) VALUES("{id}","{pw}","{name}")"""
-        cur.execute(query)
-        conn.commit()
+    try:
+        if request.method == 'POST':
+            name = request.form['name']
+            id = request.form['id']
+            pw = request.form['pw']
+            zip = request.form['zip']
+            state = request.form['state']
+            city = request.form['city']
+            street = request.form['street']
+            query = f"""
+                    INSERT INTO User(id, pw, name) VALUES("{id}","{pw}","{name}")"""
+            cur.execute(query)
+            conn.commit()
 
-        query = f"""
-                SELECT uid FROM User WHERE id = "{id}"
-        
-        """
-        for row in cur.execute(query):
-            resultSet.append(row)
-        uid = resultSet[0][0]
-        query = f"""
-                INSERT INTO Address VALUES("{uid}","{zip}","{state}","{city}","{street}")
-                """
-        cur.execute(query)
-        conn.commit()
-        flash("Sign up Complete")
-        return render_template('signUp.html',result= name)
+            query = f"""
+                    SELECT uid FROM User WHERE id = "{id}"
+            
+            """
+            for row in cur.execute(query):
+                resultSet.append(row)
+            uid = resultSet[0][0]
+            query = f"""
+                    INSERT INTO Address VALUES("{uid}","{zip}","{state}","{city}","{street}")
+                    """
+            cur.execute(query)
+            conn.commit()
+            flash("Sign up Complete")
+            return render_template('signUp.html',result= name)
+    except IntegrityError:
+        flash("ID is already taken")
+        return render_template('signUp.html', result = "")
     return render_template('signUp.html', result = "")
     
 @app.route('/signIn', methods=['GET','POST'])
