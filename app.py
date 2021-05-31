@@ -305,7 +305,7 @@ def addToCart():
         pid = request.form["pid"]
         quantity = int(request.form["quantity"])
         query = f"""
-                INSERT INTO Cart VALUES(uid = {uid}, pid = {pid}, quantity = {quantity})
+                INSERT INTO Cart VALUES(pid = {pid}, quantity = {quantity})
                 """
         cur.execute(query)
         conn.commit()
