@@ -26,7 +26,11 @@ def page_not_found(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
-   
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+
 @app.route('/signUp', methods=['GET','POST'])
 def signUp():
     resultSet = []
@@ -119,7 +123,7 @@ def searchUsers(): # primary key checking
     elif request.method == 'POST':
         id = request.form['id']
         query = f"""
-                SELECT * from User where uid = {id}"""
+                SELECT * from User where id = "{id}" """
         for row in cur.execute(query):
             resultSet.append(row)
         return render_template('searchUsers.html', result = resultSet)            
@@ -233,9 +237,10 @@ def searchCategory():
     if uid == -1:
         return render_template('signIn.html')
     else:
+        product = request.form["product"]
         query = f"""
                 SELECT DISTINCT P.pid, name, category FROM ProductCategory P , Product D 
-                WHERE P.pid = D.pid
+                WHERE P.pid = D.pid AND P.name = "{product}"
                 """
         for row in cur.execute(query):
             resultSet.append(row)    
