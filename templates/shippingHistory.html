@@ -1,38 +1,44 @@
 {% extends "base.html" %}
-{% block title %}CSE305/532 AS5_A{% endblock %}
+
+{% block title %}Search Shipping{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Sign-in</h1>
+    <h1>Search Shipping</h1>
 </div>
-
-<form method="POST" action ="/">
-    <div>
-        <label class="control-label" for="id">ID</label>
-        <input class="form-control" id="id" name="id" required="" type="text" value="">
-        <label class="control-label" for="pw">Password</label>
-        <input class="form-control" id="pw" name="pw" required="" type="text" value="">
-        
-        <br>
-    </div>
-
-    <div class='button'>
-        <button type="submit">Submit</button>
-    </div>
-</form>
 <div>
-    <p>
-        <h3>Maker: {{ result[0] }}</h3>
-        <h3>Model Number: {{ result[1] }}</h3>
-        <h3>Speed of PC: {{ result[2] }} Ghz</h3>
-    </p>
+    <h2>Following Table shows your Shipping History</h2>
+    <br>
+    <table style="width:100%">
+        <thead>
+            <tr>
+                <th>Shipping Id</th>
+                <th>User ID</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Shipping Date</th>
+                <th>Zipcode</th>
+                <th>State</th>
+                <th>City</th>
+                <th>Street</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in result %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+                <td>{{ item[4] }}</td>
+                <td>{{ item[5] }}</td>
+                <td>{{ item[6] }}</td>
+                <td>{{ item[7] }}</td>
+                <td>{{ item[8] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 </div>
-<br>
-<div>
-    <p>
-        <h2>Query Used:</h2>
-        <h4>SELECT P.maker, P.model, PC.speed FROM Products P, PCs PC WHERE P.model = PC.model ORDER BY ABS(PC.price - {price}) LIMIT 1</h4>
-    </p>
-</div>
-    
 {% endblock %}

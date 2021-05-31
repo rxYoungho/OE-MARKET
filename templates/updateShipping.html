@@ -1,38 +1,25 @@
 {% extends "base.html" %}
-{% block title %}CSE305/532 AS5_A{% endblock %}
+
+{% block title %}Update Shipping{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Sign-in</h1>
+    <h1>Update Shipping</h1>
 </div>
-
-<form method="POST" action ="/">
-    <div>
-        <label class="control-label" for="id">ID</label>
-        <input class="form-control" id="id" name="id" required="" type="text" value="">
-        <label class="control-label" for="pw">Password</label>
-        <input class="form-control" id="pw" name="pw" required="" type="text" value="">
-        
-        <br>
-    </div>
-
+<form method="POST" action="/updateShipping">
+    <label class="control-label" for="orderid">Enter an Shipping ID to update your Shipping Address</label>
+    <input class="form-control" id="orderid" name="orderid" required="" type="text" value="">
+    <label class="control-label" for="zipcode">ZipCode</label>
+    <input class="form-control" id="zipcode" name="zipcode" required="" type="text" value="">
+    <label class="control-label" for="state">State</label>
+    <input class="form-control" id="state" name="state" required="" type="text" value="">
+    <label class="control-label" for="city">City</label>
+    <input class="form-control" id="city" name="city" required="" type="text" value="">
+    <label class="control-label" for="street">Street</label>
+    <input class="form-control" id="street" name="street" required="" type="text" value="">
+    <br>
     <div class='button'>
-        <button type="submit">Submit</button>
+        <button type="submit">Update</button>
     </div>
 </form>
-<div>
-    <p>
-        <h3>Maker: {{ result[0] }}</h3>
-        <h3>Model Number: {{ result[1] }}</h3>
-        <h3>Speed of PC: {{ result[2] }} Ghz</h3>
-    </p>
-</div>
-<br>
-<div>
-    <p>
-        <h2>Query Used:</h2>
-        <h4>SELECT P.maker, P.model, PC.speed FROM Products P, PCs PC WHERE P.model = PC.model ORDER BY ABS(PC.price - {price}) LIMIT 1</h4>
-    </p>
-</div>
-    
 {% endblock %}
