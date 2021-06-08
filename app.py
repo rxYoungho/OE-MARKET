@@ -560,9 +560,8 @@ def shippingHistory():
 @app.route('/updateOrder', methods=['GET','POST'])
 def updateOrder():
     global uid
-    result_set = []
     if uid == -1:
-        render_template("signIn.html")
+        return render_template("signIn.html")
     
     elif request.method == 'POST':
         orderid = int(request.form['orderid'])
@@ -583,10 +582,9 @@ def updateOrder():
     
 @app.route('/updateProducer', methods=['GET','POST'])
 def updateProducer():
-    result_set = []
     global uid
     if uid == -1:
-        render_template("signIn.html")
+        return render_template("signIn.html")
     
     elif request.method == 'POST':
         producerid = int(request.form['producerid'])
@@ -604,12 +602,9 @@ def updateProducer():
     
 @app.route('/updateProduct', methods=['GET','POST'])
 def updateProduct():
-    
     global uid
-    result_set = []
     if uid == -1:
-        render_template("signIn.html")
-    
+        return render_template("signIn.html")
     elif request.method == 'POST':
         pid = int(request.form['pid'])
         name = str(request.form['name'])
@@ -629,10 +624,8 @@ def updateProduct():
 @app.route('/updateShipping', methods=['GET','POST'])
 def updateShipping():
     global uid
-    if request.method == 'POST':
-        global uid
     if uid == -1:
-        render_template("signIn.html")
+        return render_template('signIn.html')
     elif request.method == 'POST':
         orderid = int(request.form['orderid'])
         zipcode = str(request.form['zipcode'])
@@ -647,6 +640,7 @@ def updateShipping():
                 WHERE uid = {uid} and orderid = {orderid}
                 """
         cur.execute(query)
+        conn.commit()
         flash("Successfully Updated Shipping Table!")
     return render_template('updateShipping.html')
     
