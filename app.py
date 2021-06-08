@@ -325,6 +325,22 @@ def updateCart(): #quantity 추가
                 """
     return render_template('updateCart.html')
 
+@app.route('/deleteFromCart', methods=['GET','POST'])
+def deleteFromCart():
+    global uid
+    if uid == -1:
+        return render_template('signIn.html')
+    elif request.method == 'POST':
+        pid = int(request.form['pid'])
+        query = f"""
+                DELETE FROM Cart
+                WHERE (pid = {pid});
+                """
+        cur.execute(query)
+        conn.commit()
+        flash("Cart Deletion Complete!")
+    return render_template('deleteFromCart.html')
+
 # YHK #####
 @app.route('/addOrder', methods=['GET','POST'])
 def addOrder():
