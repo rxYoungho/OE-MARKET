@@ -236,7 +236,7 @@ def searchCategory():
     resultSet = []
     if uid == -1:
         return render_template('signIn.html')
-    else:
+    elif request.method == 'POST':
         product = request.form["product"]
         query = f"""
                 SELECT DISTINCT P.pid, name, category FROM ProductCategory P , Product D 
@@ -244,7 +244,7 @@ def searchCategory():
                 """
         for row in cur.execute(query):
             resultSet.append(row)    
-        return render_template('searchCategory.html', result = resultSet)
+    return render_template('searchCategory.html', result = resultSet)
 
 @app.route('/addCategory', methods=['GET','POST'])
 def addCategory():
