@@ -450,7 +450,7 @@ def deleteProduct():
     global uid
     if uid == -1:
         render_template("signIn.html")
-    if request.method == 'POST':
+    elif request.method == 'POST':
         pid = int(request.form['pid'])
 
         query = f"""
@@ -561,9 +561,9 @@ def shippingHistory():
 def updateOrder():
     global uid
     if uid == -1:
-        render_template("signIn.html")
-    result_set = []
-    if request.method == 'POST':
+        return render_template("signIn.html")
+    
+    elif request.method == 'POST':
         orderid = int(request.form['orderid'])
         zipcode = str(request.form['zipcode'])
         state = str(request.form['state'])
@@ -584,9 +584,9 @@ def updateOrder():
 def updateProducer():
     global uid
     if uid == -1:
-        render_template("signIn.html")
-    result_set = []
-    if request.method == 'POST':
+        return render_template("signIn.html")
+    
+    elif request.method == 'POST':
         producerid = int(request.form['producerid'])
         country = str(request.form['country'])
         brand = str(request.form['brand'])
@@ -604,9 +604,8 @@ def updateProducer():
 def updateProduct():
     global uid
     if uid == -1:
-        render_template("signIn.html")
-    result_set = []
-    if request.method == 'POST':
+        return render_template("signIn.html")
+    elif request.method == 'POST':
         pid = int(request.form['pid'])
         name = str(request.form['name'])
         price = int(request.form['price'])
@@ -625,11 +624,9 @@ def updateProduct():
 @app.route('/updateShipping', methods=['GET','POST'])
 def updateShipping():
     global uid
-    if request.method == 'POST':
-        global uid
     if uid == -1:
-        render_template("signIn.html")
-    if request.method == 'POST':
+        return render_template('signIn.html')
+    elif request.method == 'POST':
         orderid = int(request.form['orderid'])
         zipcode = str(request.form['zipcode'])
         state = str(request.form['state'])
@@ -643,6 +640,7 @@ def updateShipping():
                 WHERE uid = {uid} and orderid = {orderid}
                 """
         cur.execute(query)
+        conn.commit()
         flash("Successfully Updated Shipping Table!")
     return render_template('updateShipping.html')
     
