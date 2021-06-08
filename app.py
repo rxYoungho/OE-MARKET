@@ -450,7 +450,7 @@ def deleteProduct():
     global uid
     if uid == -1:
         render_template("signIn.html")
-    if request.method == 'POST':
+    elif request.method == 'POST':
         pid = int(request.form['pid'])
 
         query = f"""
@@ -560,10 +560,11 @@ def shippingHistory():
 @app.route('/updateOrder', methods=['GET','POST'])
 def updateOrder():
     global uid
+    result_set = []
     if uid == -1:
         render_template("signIn.html")
-    result_set = []
-    if request.method == 'POST':
+    
+    elif request.method == 'POST':
         orderid = int(request.form['orderid'])
         zipcode = str(request.form['zipcode'])
         state = str(request.form['state'])
@@ -582,11 +583,12 @@ def updateOrder():
     
 @app.route('/updateProducer', methods=['GET','POST'])
 def updateProducer():
+    result_set = []
     global uid
     if uid == -1:
         render_template("signIn.html")
-    result_set = []
-    if request.method == 'POST':
+    
+    elif request.method == 'POST':
         producerid = int(request.form['producerid'])
         country = str(request.form['country'])
         brand = str(request.form['brand'])
@@ -602,11 +604,13 @@ def updateProducer():
     
 @app.route('/updateProduct', methods=['GET','POST'])
 def updateProduct():
+    
     global uid
+    result_set = []
     if uid == -1:
         render_template("signIn.html")
-    result_set = []
-    if request.method == 'POST':
+    
+    elif request.method == 'POST':
         pid = int(request.form['pid'])
         name = str(request.form['name'])
         price = int(request.form['price'])
@@ -629,7 +633,7 @@ def updateShipping():
         global uid
     if uid == -1:
         render_template("signIn.html")
-    if request.method == 'POST':
+    elif request.method == 'POST':
         orderid = int(request.form['orderid'])
         zipcode = str(request.form['zipcode'])
         state = str(request.form['state'])
