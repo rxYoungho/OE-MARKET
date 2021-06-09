@@ -475,7 +475,7 @@ def deleteProducer():
 def deleteProduct():
     global uid
     if uid == -1:
-        render_template("signIn.html")
+        return render_template("signIn.html")
     elif request.method == 'POST':
         pid = int(request.form['pid'])
 
