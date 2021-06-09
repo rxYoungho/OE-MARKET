@@ -1,3 +1,13 @@
+"""
+Youngho Kim
+110710626
+Junghun Park
+110397805
+
+youngho.kim@stonybrook.edu
+junghun.park@stonybrook.edu
+"""
+
 import os
 import sqlite3
 from sqlite3.dbapi2 import IntegrityError

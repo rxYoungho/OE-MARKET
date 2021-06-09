@@ -1,19 +1,25 @@
-## CSE305_AS5
-## Junghun Park
-## 110397805
+Junghun Park / 110397805 / junghun.park@stonybrook.edu
+Youngho Kim / 110710626 / youngho.kim@stonybrook.edu
 
-### How to Run this program
-1.pip install -r requirements.txt to install dependencies.
-2. On the project directory, run dbcreate.py by python createdb.py to initialize the db.
-3. python app.py to run this application.
-4. the URL for the localhost is 127.0.0.1:5000.
-5. On the first page, the solution for problem A will be displayed.
-6. You can move to other problems easily by using nav bar.
+How to run:
 
-### Environment
-OS == windows 10 Education
-python version == 3.7.1
-Flask==1.1.2
-Flask_Bootstrap==3.3.7.1
-Flask_Moment==0.11.0
+$ pip install flask
+$ pip install flask_bootstrap
+$ pip install flask_moment
+$ cd PATH/TO/THE/DIRECTORY/OE-MARKET
+$ python app.py
 
+- The terminal will display a localhost address.
+- Press Ctrl and click "http://127.0.0.1:5000/" on the script.
+- You can even copy and paste on a browser (recommend Chrome) : http://127.0.0.1:5000/ 
+
+#---------------OS---------------#
+- Windows 10
+- Mac OS 
+- Both operating systems are confirmed
+
+
+#---------------WARNING---------------#
+- Do not run dbcreate.py. This will reset "OEDB.db".
+- If you want to try from the beginning, then run dbcreate.py
+- We recommend you to just use the original Database we've already implemented.
